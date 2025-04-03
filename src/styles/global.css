@@ -1,0 +1,228 @@
+/* Estilos generales */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f7f7f7;
+  margin: 0;
+  padding: 0;
+}
+
+.upload-container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h3 {
+  font-size: 1.8rem;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Formulario de subida de imagen */
+.upload-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.file-input {
+  font-size: 1.2rem;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  width: 250px;
+}
+
+.preview-image {
+  max-width: 100%;
+  max-height: 150px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+.upload-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.upload-button:hover {
+  background-color: #0056b3;
+}
+
+.error-text {
+  color: red;
+  font-size: 1rem;
+  margin-top: 10px;
+}
+
+/* Galería de imágenes */
+.image-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.image-card {
+  margin: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efecto de hover en las tarjetas */
+.image-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo de la imagen dentro de la tarjeta */
+.image-thumbnail {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.image-thumbnail:hover {
+  transform: scale(1.1);
+}
+
+/* Estilos para la imagen expandida */
+.expanded-image-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.expanded-image {
+  max-width: 90%;
+  max-height: 80%;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Estilos para las variantes */
+.image-variants {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.variant-gallery {
+  display: flex;
+  justify-content: space-around;
+}
+
+.variant {
+  margin: 10px;
+  text-align: center;
+}
+
+.variant-image {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.variant-image:hover {
+  transform: scale(1.1);
+}
+
+span {
+  display: block;
+  margin-top: 5px;
+  font-size: 1rem;
+  color: #555;
+}
+
+.upload-container {
+  text-align: center;
+  padding: 20px;
+}
+
+/* 🎯 Título */
+.title {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+/* 🎯 Contenedor del botón */
+.upload-form {
+  margin-bottom: 20px;
+}
+
+/* 🎯 Botón de selección estilizado */
+.custom-file-upload {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: background 0.3s ease;
+  border: none;
+  outline: none;
+  margin: 20px;
+}
+
+.custom-file-upload:hover {
+  background-color: #0056b3;
+}
+
+/* 🔄 Oculta el input nativo */
+.hidden-file-input {
+  display: none;
+}
+
+/* 📂 Nombre del archivo */
+.file-name {
+  font-size: 14px;
+  color: #444;
+  margin-top: 8px;
+}
+
+/* 🖼️ Imagen previsualizada */
+.preview-image {
+  width: 200px;
+  height: auto;
+  margin-top: 12px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* ❌ Estilo de error */
+.error-text {
+  color: red;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+/* 🔼 Icono de subida */
+.upload-icon {
+  font-size: 20px;
+}

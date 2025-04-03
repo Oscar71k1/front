@@ -1,0 +1,23 @@
+{
+  "name": "cdn-cloudfare",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3200",
+    "build": "next build -p 3200",
+    "start": "next start -p 3200",
+    "lint": "next lint -p 3200"
+    
+  },
+  "dependencies": {
+    "next": "15.2.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-icons": "^5.5.0",
+    "react-medium-image-zoom": "^5.2.14"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "tailwindcss": "^4"
+  }
+}
