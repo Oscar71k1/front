@@ -1,13 +1,22 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { FiUpload } from "react-icons/fi";
+import Image from "next/image";
 
-export default function UploadForm() {
+export async function getStaticProps() {
+    const res = await fetch("https://3523110017-oscar5a-backend.cachos-company.shop/imagenes/all");
+    const data = await res.json();
+
+    const images = data.images
+        .map(image => image.variants?.find(url => url.includes("/public")))
+        .filter(Boolean);
+
+    return { props: { images } };
+}
+
+export default function UploadForm({ images }) {
     const [file, setFile] = useState(null);
     const [preview, setPreview] = useState(null);
     const [error, setError] = useState(null);
-    const [images, setImages] = useState([]);
-    const [expandedImage, setExpandedImage] = useState(null);
-    const [selectedVariants, setSelectedVariants] = useState(null);
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
@@ -28,66 +37,19 @@ export default function UploadForm() {
         formData.append("file", file);
 
         try {
-            const response = await fetch(" https://3523110017-oscar5a-backend.cachos-company.shop/imagenes/upload", {
+            const response = await fetch("https://3523110017-oscar5a-backend.cachos-company.shop/imagenes/upload", {
                 method: "POST",
                 body: formData,
             });
 
-            if (!response.ok) {
-                throw new Error("Error al subir la imagen");
-            }
+            if (!response.ok) throw new Error("Error al subir la imagen");
 
-            await fetchImages();
+            setFile(null);
+            setPreview(null);
         } catch (error) {
             setError("Error al subir la imagen.");
             console.error(error);
         }
-    };
-
-    const fetchImages = async () => {
-        try {
-            const response = await fetch(" https://3523110017-oscar5a-backend.cachos-company.shop/imagenes/all");
-            if (!response.ok) {
-                throw new Error(`Error HTTP: ${response.status}`);
-            }
-            const data = await response.json();
-
-            if (!data || !data.images || !Array.isArray(data.images)) {
-                throw new Error("El backend no devolvió un array de imágenes.");
-            }
-
-            const imageUrls = data.images.map(image => {
-                if (!image.variants || !Array.isArray(image.variants)) return null;
-
-                const small = image.variants.find(url => url.includes("/public")) || null;
-                const medium = image.variants.find(url => url.includes("/medio")) || null;
-                const large = image.variants.find(url => url.includes("/big")) || null;
-
-                return small || medium || large ? { small, medium, large } : null;
-            }).filter(Boolean);
-
-            setImages(imageUrls);
-        } catch (error) {
-            setError("Error al cargar las imágenes.");
-            console.error("Error en fetchImages:", error);
-        }
-    };
-
-    useEffect(() => {
-        fetchImages();
-    }, []);
-
-    const handleSelectImage = (image) => {
-        setSelectedVariants(image);
-        setExpandedImage(image.large);
-    };
-
-    const handleVariantClick = (variant) => {
-        setExpandedImage(variant);
-    };
-
-    const handleCloseExpandedImage = () => {
-        setExpandedImage(null);
     };
 
     return (
@@ -97,14 +59,14 @@ export default function UploadForm() {
                 <label htmlFor="file-upload" className="custom-file-upload">
                     <FiUpload className="upload-icon" /> Seleccionar Imagen
                 </label>
-                <input 
+                <input
                     id="file-upload"
-                    type="file" 
-                    accept="image/*" 
-                    onChange={handleFileChange} 
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
                     className="hidden-file-input"
                 />
-                {preview && <img src={preview} alt="Vista previa" className="preview-image" />}
+                {preview && <Image src={preview} alt="Vista previa" width={250} height={250} className="preview-image" />}
                 <button onClick={handleUpload} className="upload-button">Subir Imagen</button>
                 {error && <p className="error-text">{error}</p>}
             </div>
@@ -113,47 +75,15 @@ export default function UploadForm() {
             <div className="image-gallery">
                 {images.length > 0 ? (
                     images.map((image, index) => (
-                        <div key={index} className="image-card" onClick={() => handleSelectImage(image)}>
-                            {image.small && <img src={image.small} alt={`Imagen ${index + 1}`} className="image-thumbnail" />}
-                            <p>Seleccionar</p>
+                        <div key={index} className="image-card">
+                            <Image src={image} alt={`Imagen ${index + 1}`} width={250} height={250} className="image-thumbnail" />
                         </div>
                     ))
                 ) : (
                     <p>No hay imágenes subidas.</p>
                 )}
             </div>
-
-            {expandedImage && (
-                <div className="expanded-image-container" onClick={handleCloseExpandedImage}>
-                    <img src={expandedImage} alt="Imagen Expandida" className="expanded-image" />
-                </div>
-            )}
-
-            {selectedVariants && (
-                <div className="image-variants">
-                    <h4>Resoluciones de imágenes:</h4>
-                    <div className="variant-gallery">
-                        {selectedVariants.small && (
-                            <div className="variant" onClick={() => handleVariantClick(selectedVariants.small)}>
-                                <img src={selectedVariants.small} alt="250px" className="variant-image" />
-                                <span>250px</span>
-                            </div>
-                        )}
-                        {selectedVariants.medium && (
-                            <div className="variant" onClick={() => handleVariantClick(selectedVariants.medium)}>
-                                <img src={selectedVariants.medium} alt="500px (Mediana)" className="variant-image" />
-                                <span>500px</span>
-                            </div>
-                        )}
-                        {selectedVariants.large && (
-                            <div className="variant" onClick={() => handleVariantClick(selectedVariants.large)}>
-                                <img src={selectedVariants.large} alt="750px (Grande)" className="variant-image" />
-                                <span>750px</span>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            )}
         </div>
     );
 }
+
